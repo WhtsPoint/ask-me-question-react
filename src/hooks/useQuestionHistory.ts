@@ -16,21 +16,18 @@ function useQuestionHistory({ initPage, count }: IParams): [IQuestion[], () => a
     const [loadNext, { isLoading, isFetching }] = useLazyGetListQuery()
     const [isLocked, setIsLocked] = useState<boolean>(false)
 
-    const fetchNext = () => {
-        if (isLoading || isFetching || isLocked) return 
-       
+    const fetchNext = async () => {
+        if (isLoading || isFetching || isLocked) return    
+        
         const nextPage = page + 1
-        setPage(nextPage)
-       
-        loadNext({ page, count }).then(({ data }) => {
-            if (data) {
-                if (data.length === 0) return setIsLocked(true)
-               setQuestions(prevQuestions => {
-                    const prevQuestionsId = prevQuestions.map(({ id }) => id)
-                    return [...prevQuestions, ...data.filter(({ id }) => !prevQuestionsId.includes(id))]
-                })
-            }
+        const { data, error } = await loadNext({ page, count })
+        if(!data || data?.length === 0 || error) return setIsLocked(true)
+
+        setQuestions(prevQuestions => {
+            const prevQuestionsId = prevQuestions.map(({ id }) => id)
+            return [...prevQuestions, ...data.filter(({ id }) => !prevQuestionsId.includes(id))]
         })
+        setPage(nextPage)
     }
 
     return [questions, fetchNext, isLoading]
