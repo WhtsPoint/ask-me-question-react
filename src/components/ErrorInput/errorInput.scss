@@ -1,0 +1,8 @@
+.errorInput {
+    &_error {
+        border-color: red !important;
+        &, &::placeholder {
+            color: red;
+        }
+    }
+}

@@ -1,0 +1,7 @@
+.enableContainer {
+    &_locked {
+        user-select: none;
+        pointer-events: none;
+        opacity: 0.7;
+    }
+}

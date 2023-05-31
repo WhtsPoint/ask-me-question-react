@@ -1,0 +1,25 @@
+.question {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    padding: 15px;
+    background: var(--color-b);
+
+    &__author {
+    }
+
+    &__name, &__message, &__mail {
+        word-break: break-all;
+    }
+
+    &__message {
+        white-space: pre-line;
+    }
+
+    &__creationTime {
+        margin-left: auto;
+        color: rgb(165, 165, 165)
+    }
+}

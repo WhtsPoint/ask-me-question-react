@@ -1,0 +1,19 @@
+.limitedField {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+    &__field {
+        flex-grow: 1;
+    }
+
+    &__counter {
+        transition: color 200ms, border-color 200ms;
+    }
+    
+    &_error & {
+        &__counter {
+            color: red;
+        }
+    }
+}
