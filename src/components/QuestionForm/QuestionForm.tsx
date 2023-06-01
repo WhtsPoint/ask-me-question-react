@@ -4,9 +4,9 @@ import MailInput from './items/MailInput/MileInput'
 import AnonymousSwitch from './items/AnonymousSwitch/AnonymousSwitch'
 import useQuestionFormValidation from '../../hooks/useQuestionFormValidation'
 import EnableContainer from '../EnableContainer/EnableContainer'
-import { useCreateMutation } from '../../api/Question.api'
 import { useState } from 'react'
 import './questionForm.css'
+import useSendQuestionForm from '../../hooks/useSendQuestionForm'
 
 function QuestionForm() {
     const [question, setQuestion] = useState<string>('')
@@ -14,14 +14,9 @@ function QuestionForm() {
     const [mail, setMail] = useState<string>('')
     const [isAnonymous, setIsAnonymous] = useState<boolean>(false)
 
-    const [isQuestionValid, isNameValid, isMailValid, isAllValid] = useQuestionFormValidation({ question, isAnonymous, name, mail })
-    const [send, { isLoading }] = useCreateMutation()
-
-    const onButtonClicked = () => send({
-        message: question, 
-        isAnonymous, 
-        ...(!isAnonymous ? { name, mail } : {})
-    }).then(() => alert('Ваше питання успішно відправлено'))
+    const formData = { question, isAnonymous, name, mail }
+    const [isQuestionValid, isNameValid, isMailValid, isAllValid] = useQuestionFormValidation(formData)
+    const [send, isLoading] = useSendQuestionForm(formData)
 
     return (<EnableContainer isEnable={!isLoading}>
         <div className={'questionForm'}>
@@ -34,7 +29,7 @@ function QuestionForm() {
             </EnableContainer>
             <AnonymousSwitch initValue={isAnonymous} onToggle={setIsAnonymous} />
             <EnableContainer isEnable={isAllValid}>
-                <button className={'customButton questionForm__send'} onClick={onButtonClicked}>Відправити</button>
+                <button className={'customButton questionForm__send'} onClick={send}>Відправити</button>
             </EnableContainer>
         </div>
     </EnableContainer>)

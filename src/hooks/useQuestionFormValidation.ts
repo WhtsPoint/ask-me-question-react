@@ -17,7 +17,7 @@ interface IPrams {
 function useQuestionFormValidation({ question, isAnonymous, name, mail }: IPrams) : TReturn {
     const isQuestionValid = validate(question, size({ min: questionSettings.minLength, max: questionSettings.maxLength }))
     const isNameValid = validate(name, size({ min: nameSettings.minLength, max: nameSettings.maxLength })) || isAnonymous
-    const isMailValid = validate(mail, regexEmail, size({ max: mailSettings.maxLength })) || isAnonymous
+    const isMailValid = mail ? (validate(mail, regexEmail, size({ max: mailSettings.maxLength })) || isAnonymous) : true
 
     return [
         isQuestionValid,

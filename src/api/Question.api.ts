@@ -1,6 +1,7 @@
 import IQuestionCreationDto from '../interfaces/dto/IQuestionCreation.dto'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import IQuestionListDto from '../interfaces/dto/IQuestionList.dto'
+import IQuestionResponseDto from '../interfaces/dto/IQuestionResponse.dto'
 import IQuestion from '../interfaces/IQuestion'
 import apiConfig from '../configs/apiConfig'
 
@@ -13,7 +14,7 @@ const questionApi = createApi({
             query: ({ page, count }) => `get/list?page=${page}&count=${count}`,
             providesTags: ['Question'],
         }),
-        create: builder.mutation<any, IQuestionCreationDto>({
+        create: builder.mutation<IQuestionResponseDto, IQuestionCreationDto>({
             query: (body) => ({
                 url: 'create',
                 method: 'POST',

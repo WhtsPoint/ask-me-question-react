@@ -7,9 +7,6 @@ interface IParams {
     count: number 
 }
 
-//TODO: Fix bug with +1 request after permission to fetch is locked 
-//TODO: Refactor and make scroll pagination data query more abstract
-
 function useQuestionHistory({ initPage, count }: IParams): [IQuestion[], () => any, boolean] {
     const [page, setPage] = useState<number>(initPage)
     const [questions, setQuestions] = useState<IQuestion[]>([])
